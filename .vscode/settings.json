@@ -1,8 +1,0 @@
-{
-  "[tcl]": {
-    "files.encoding": "windows1252"
-  },
-  "files.associations": {
-    "*.qsf": "tcl"
-  }
-}
