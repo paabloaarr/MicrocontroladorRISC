@@ -1,20 +1,32 @@
-# Bases de datos y archivos generados por Quartus
+# --- Quartus: carpetas que se regeneran al compilar ---
 db/
 incremental_db/
-output_files/
-work/
-/simulation/
+qdb/
+greybox_tmp/
+hc_output/
+tmp-clearbox/
+.qsys_edit/
+output_files/*
 
-
-# Preferencias locales de Quartus
+# --- Quartus: archivos temporales e informes ---
 *.qws
+*.bak
+*.rpt
+*.summary
+*.smsg
+*.done
+*.jdi
+*.sld
+*.pin
+*.qdf
+*.qarlog
+*.qar
+PLLJ_PLLSPE_INFO.txt
+c5_pin_model_dump.txt
 
-# Resultados de programación si se generan fuera de output_files/
-*.sof
-*.pof
-*.jic
-*.rbf
-
-# Archivos locales de Windows
-Thumbs.db
-Desktop.ini
+# --- Simulación (ModelSim / Questa) ---
+simulation/
+work/
+transcript
+*.wlf
+*.vstf
