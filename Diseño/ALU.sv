@@ -17,10 +17,16 @@ module ALU (
          SUB  = 4'b1000,
          SRA  = 4'b1001
     } ALU_OPCODES;
+	 
+	 // 1. Creamos una señal del tipo enumerado
+    ALU_OPCODES opcode_enum;
+
+    // 2. Hacemos el cast desde la entrada de 4 bits
+    assign opcode_enum = ALU_OPCODES'(OPCODE);
     
     always_comb
     
-        unique case (OPCODE)
+        unique case (opcode_enum)
             
             ADD: Result = Data1 + Data2;
             SLL: Result = Data1 << Data2[4:0];
