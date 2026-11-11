@@ -37,7 +37,7 @@ module ALU (
             OR: Result = Data1 | Data2;
             AND: Result = Data1 & Data2;
             SUB: Result = Data1 - Data2;
-            SRA: Result = $signed(Data1) >>> Data2[4:0] ;
+            SRA: Result = $signed(Data1) >>> Data2[4:0];
             default: Result = 32'b0;
             
         endcase
