@@ -1,0 +1,65 @@
+# =============================================================
+# Ordenamiento por selección
+# Ordena de menor a mayor un vector de N palabras guardado en
+# memoria a partir de 0x10000000. El resultado queda en el
+# mismo sitio.
+#
+# Registros:
+#   x10 = dirección de v[0]       x9 = N        x5 = N-1
+#   x6  = i (posición a rellenar)  x7 = j        x8 = min (índice)
+#   x1, x2 = valores leídos de memoria
+#   x3, x4 = direcciones calculadas (auxiliares)
+# =============================================================
+
+# ---------- Precarga del vector en memoria ----------
+        addi x1, x0, 4           # valores iniciales del vector
+        addi x2, x0, 3
+        addi x3, x0, 5
+        addi x4, x0, 1
+        addi x5, x0, 2
+
+        lui  x10, 0x10000        # x10 = 0x10000000, inicio del vector
+
+        sw   x1, 0(x10)          # v[0] = 4
+        sw   x2, 4(x10)          # v[1] = 3
+        sw   x3, 8(x10)          # v[2] = 5
+        sw   x4, 12(x10)         # v[3] = 1
+        sw   x5, 16(x10)         # v[4] = 2
+
+# ---------- Inicialización ----------
+        addi x9, x0, 5           # N = 5 elementos
+        addi x5, x9, -1          # N-1: última posición que hay que rellenar
+        addi x6, x0, 0           # i = 0
+
+
+ordenada:
+		bge  x6,x5,fin #final
+        add  x8,x6,x0  #minimo actual que primero decimos que es el primero
+        addi x7,x6,1   #j 
+subucle:
+		bge  x7,x6,intercambiar #si j es igual a N-1 ya hemos recorrido todo e intercambiamos
+        slli x3,x7,2
+        add  x3,x10,x3
+        lw   x1,0(x3)
+        slli x3,x8,2
+        add  x3,x10,x3
+        lw   x2,0(x3)
+        bge  x2,x1,siguiente
+        add  x8, x7, x0
+        
+siguiente:
+		addi x7,x7,1
+        j subucle
+               
+intercambiar:
+        slli x3,x6,2
+        add  x3,x10,x3
+        lw   x1,0(x3)
+        slli x3,x8,2
+        add  x3,x10,x3
+        lw   x2,0(x3
+        sw   x2, 0(x3)           
+        sw   x1, 0(x4)           
+        addi x6, x6, 1           
+		j ordenada
+fin:
