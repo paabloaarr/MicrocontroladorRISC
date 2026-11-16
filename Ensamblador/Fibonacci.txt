@@ -1,0 +1,43 @@
+### Sucesión de Fibonacci
+# Almacena en memoria de datos los N primeros números de la sucesión de Fibonacci (siendo N una constante almacenada en memoria estática).
+
+## Definicion de los registros:
+# x1: Almacena N
+# x2: Almacena f (el siguiente termino de la serie)
+# x3: Almacena f-1
+# x4: Almacena f-2
+# x5: Contador de operaciones
+# x6: Puntero de direccion de memoria donde se almacena el valor
+# x7: Registro que almacena el retorno de saltos
+
+## Carga de registros
+addi x1,x0,10 # Cargo N en el registro x1
+addi x4,x0,0 # El 1er termino es 0
+addi x3,x0,1 # El 2o termino es 1
+addi x5,x0,2 # Representa el numero de valores calculados en el momento que se evalua
+addi x6,x0,0 # Carga del offset inicial en el puntero
+
+## Programa
+add x2,x0,x4 # Registro el primer termino en f
+jal x7,Mem # Guardo el primer termino
+beq x1,x3,End # Casos especiales: N=1
+
+add x2,x0,x3 # Registro el segundo termino en f
+jal x7,Mem # Guardo el segundo termino
+beq x1,x5,End # Casos especiales: N=2
+
+Loop:	beq x1,x5,End # Cuando el contador llegue a N salto a End
+
+		add x2,x3,x4 # Asigno los nuevos valores a f,
+        add x4,x3,x0 # f-2,
+        add x3,x2,x0 # y f-1
+        
+        jal x7,Mem  # Guardo el termino
+        
+        addi x5,x5,1 # Sumo 1 al contador
+        j Loop # Repito el bucle
+        
+Mem:	sw x2,0(x6) # Almaceno en memoria el valor de f
+        addi x6,x6,4 # Muevo el puntero a la siguiente posicion de memoria
+        jalr x0,0(x7) # Retorno
+End:
