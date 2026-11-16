@@ -37,14 +37,14 @@ ordenada:
         add  x8,x6,x0  #minimo actual que primero decimos que es el primero
         addi x7,x6,1   #j 
 subucle:
-		bge  x7,x6,intercambiar #si j es igual a N-1 ya hemos recorrido todo e intercambiamos
+		bge  x7,x9,intercambiar #si j es igual a N-1 ya hemos recorrido todo e intercambiamos
         slli x3,x7,2
         add  x3,x10,x3
         lw   x1,0(x3)
         slli x3,x8,2
         add  x3,x10,x3
         lw   x2,0(x3)
-        bge  x2,x1,siguiente
+        bge  x1,x2,siguiente
         add  x8, x7, x0
         
 siguiente:
@@ -55,9 +55,9 @@ intercambiar:
         slli x3,x6,2
         add  x3,x10,x3
         lw   x1,0(x3)
-        slli x3,x8,2
-        add  x3,x10,x3
-        lw   x2,0(x3
+        slli x4,x8,2
+        add  x4,x10,x4
+        lw   x2,0(x4)
         sw   x2, 0(x3)           
         sw   x1, 0(x4)           
         addi x6, x6, 1           
