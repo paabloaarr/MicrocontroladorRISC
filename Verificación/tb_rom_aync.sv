@@ -5,7 +5,7 @@ module tb_rom_async;
     // Parámetros iguales a los de tu diseño
     localparam int addr_width = 10;
     localparam int data_width = 32;
-	 localparam string txt="datos.txt"
+	localparam string txt="datos.txt";
 
     // Señales para conectar al módulo (DUT - Device Under Test)
     logic [addr_width-1:0] addr;
@@ -20,8 +20,6 @@ module tb_rom_async;
         .addr(addr),
         .data_out(data_out)
     );
-	 
-	 
 
     // Estímulos de prueba
    logic [data_width-1:0] memoria_esperada [0:(2**addr_width)-1];
