@@ -1,4 +1,4 @@
-module rom_async #(parameter addr_width = 10, parameter dataout_length=32, parameter string txt="datos.txt")
+module rom_async #(parameter addr_width = 10, parameter dataout_length=32, parameter txt="datos.txt")
 (
     input  logic [addr_width-1:0] addr,  // 10 bits de dirección para 1024 posiciones
     output logic [dataout_length-1:0] data_out   // 32 bits de ancho para la memoria de instrucciones
