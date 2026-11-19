@@ -41,7 +41,56 @@ module ALU (
             default: Result = 32'b0;
             
         endcase
-        
+		  
+		   assign opcode_enum = ALU_OPCODES'(OPCODE);
+    
+always_comb
+	unique case (opcode_enum)
+		
+		// FORMATO U
+		
+			LUI:
+			AUIPC:
+		
+		// FORMATO J
+		
+			BEQ:
+			BNE:
+			BLT:
+			BGE:
+			BLTU:
+			BGEU:
+			
+		// FORMATO L
+		
+			LB:	Result = { Data2[31:20
+			LH:
+			LW:
+			LBU:
+			LHU:
+			SB:
+			SH:
+			SW:
+		
+		// FORMATO I
+			
+			// Se emplean las operaciones del formato R.
+			// El módulo ALU_CONTROL y la señal de control ALUsrc cargan los inmediatos en lugar
+			//		de los datos del banco de registros.
+		
+		// FORMATO R
+		
+			ADD: 	Result = Data1 + Data2;
+			SUB:	Result = Data1 - Data2;
+			SLL: 	Result = Data1 << Data2[4:0];
+			SLT: 	Result = ($signed(Data1) < $signed(Data2)) ? 1 : 0;
+			SLTU: Result = (Data1 < Data2) ? 1 : 0;
+			XOR:	Result = Data1 ^ Data2;
+			SRL:	Result = Data1 >> Data2[4:0];
+			SRA:	Result = $signed(Data1) >>> Data2[4:0] ;
+			OR:	Result = Data1 | Data2;
+			AND:	Result = Data1 & Data2;
+			
     assign Zero = (Result == 32'b0) ? 1'b1 : 1'b0;
     
 endmodule
