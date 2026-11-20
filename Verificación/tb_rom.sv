@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module tb_rom_async;
+module tb_rom;
 
     // Parámetros iguales a los de tu diseño
     localparam int addr_width = 10;
@@ -12,7 +12,7 @@ module tb_rom_async;
     logic [data_width-1:0] data_out;
 
     // Instancia de la ROM pasándole el nombre del archivo
-    rom_async #(
+    ROM #(
         .addr_width(addr_width),
         .dataout_length(data_width),
         .txt("datos.txt")
