@@ -3,38 +3,38 @@
 module tb_rom;
 
     // Parámetros iguales a los de tu diseño
-    localparam int addr_width = 10;
-    localparam int data_width = 32;
+    localparam int Rom_R_Addr_width = 10;
+    localparam int ROM_Ins_width = 32;
 	localparam string txt="datos.txt";
 
     // Señales para conectar al módulo (DUT - Device Under Test)
-    logic [addr_width-1:0] addr;
-    logic [data_width-1:0] data_out;
+	logic [Rom_R_Addr_width-1:0] Rom_R_Addr;
+    logic [ROM_Ins_width-1:0] ROM_Ins;
 
     // Instancia de la ROM pasándole el nombre del archivo
     ROM #(
-        .addr_width(addr_width),
-        .dataout_length(data_width),
+		.Rom_R_Addr_width(Rom_R_Addr_width),
+        .ROM_Ins_width(ROM_Ins_width),
         .txt("datos.txt")
     ) dut (
-        .addr(addr),
-        .data_out(data_out)
+		.Rom_R_Addr(Rom_R_Addr),
+        .ROM_Ins_width(ROM_Ins)
     );
 
     // Estímulos de prueba
-   logic [data_width-1:0] memoria_esperada [0:(2**addr_width)-1];
+	logic [ROM_Ins_width-1:0] memoria_esperada [0:(2**Rom_R_Addr_width)-1];
 
 	initial begin
 		 // Cargamos la referencia en el testbench
 		 $readmemh(txt, memoria_esperada);
 
 		 // Recorremos todas las direcciones automáticamente
-		 for (int i = 0; i < (2**addr_width); i++) begin
+		 for (int i = 0; i < (2**Rom_R_Addr_width); i++) begin
 			  addr = i;
 			  #1; // Esperamos 1 ns a que responda la ROM (deberia responder inst. pero conviene esperar un poco)
-			  assert (data_out === memoria_esperada[i])
+			  assert (ROM_Ins === memoria_esperada[i])
 					else $error("MISMATCH en addr %0d: esperado 0x%h, obtenido 0x%h", 
-									i, memoria_esperada[i], data_out);
+									i, memoria_esperada[i], ROM_Ins);
 		 end
 		 
 		 $display("Verificacion completada sin errores.");
