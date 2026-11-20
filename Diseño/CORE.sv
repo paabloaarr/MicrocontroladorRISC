@@ -10,3 +10,6 @@ module CORE (
 	output logic [31:0] RAM_W_Data,
 	output logic [31:0] RAM_Addr
 );
+
+
+endmodule
