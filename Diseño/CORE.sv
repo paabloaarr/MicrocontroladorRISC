@@ -37,6 +37,7 @@ logic [31:0] BR_R_Data1, BR_R_Data2;
 logic [31:0] INM_GEN_out;
 //ALU
 logic ALU_zero;
+logic [31:0] ALU_result;
 //ALU_CONTROL
 logic [3:0] ALU_CONTROL_out;	// !!!!!! MIRAR ANCHO EN ALU_CONTROL.sv !!!!!!
 
@@ -69,31 +70,32 @@ BR	BR (
 	.BR_R_reg1 (ROM_Ins[19:15]),
 	.BR_R_reg2 (ROM_Ins[24:20]),
 	.BR_W_reg (ROM_Ins[11:7]),
-	.BR_W_Data (RAM_R_Data),
+	.BR_W_Data (MUX_4),
 	.BR_RegWrite (CONTROL_RegWrite),
 	.CLK (CLK) , .RSTn (RSTn),
 	.BR_R_Data1 (BR_R_Data1),
 	.BR_R_Data2 (BR_R_Data2)
 	);
-assign RAM_W_Data = BR_R_Data1;
+assign RAM_W_Data = BR_R_Data2;
 
 INM_GEN INM_GEN (
 	.INM_GEN_Ins (ROM_Ins),
 	.INM_GEN_out (INM_GEN_out)
 	);
 
-assign MUX_2 = (AuipcLui == 2'b10)? BR_R_Data1 : (AuipcLui == 2'b01)? 32'd0 : PC_out ;
+assign MUX_2 = (CONTROL_AuipcLui == 2'b10)? BR_R_Data1 : (CONTROL_AuipcLui == 2'b01)? 32'd0 : PC_out ;
 
 assign MUX_3 = (CONTROL_ALUSrc == 1'b0)? BR_R_Data2 : INM_GEN_out ;
 
 ALU	ALU (
-	.ALU_Data1 (MUX2),
-	.ALU_DATA2 (MUX3),
+	.ALU_Data1 (MUX_2),
+	.ALU_Data2 (MUX_3),
 	.ALU_CONTROL_in (ALU_CONTROL_out),
 	.ALU_zero (ALU_zero),
-	.ALU_result (RAM_Addr)
+	.ALU_result (ALU_result)
 	);
-assign MUX_4 = (CONTROL_MemtoReg == 0)? RAM_R_Data : RAM_Addr;
+assign RAM_Addr = ALU_result;
+assign MUX_4 = (CONTROL_MemtoReg == 1)? RAM_R_Data : ALU_result ;
 
 ALU_CONTROL ALU_CONTROL (
 	.ALU_CONTROL_Ins ( {ROM_Ins[30],ROM_Ins[14:12]} ),
@@ -101,7 +103,6 @@ ALU_CONTROL ALU_CONTROL (
 	.ALU_CONTROL_out (ALU_CONTROL_out)
 	);
 
-assign PC_in = ( (CONTROL_Branch && ALU_zero == 0)? MUX_1_A : MUX_1_B;
-
+assign PC_in = ( (CONTROL_Branch && ALU_zero) == 0)? MUX_1_A : MUX_1_B;
 
 endmodule 
