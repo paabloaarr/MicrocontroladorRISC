@@ -73,21 +73,22 @@ set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME rb_INM_GEN -section_id rb
 set_global_assignment -name EDA_TEST_BENCH_NAME tb_RAM -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_RAM
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_RAM -section_id tb_RAM
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_CORE.sv -section_id tb_CORE
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_ALU.sv -section_id tb_ALU
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_BR.sv -section_id tb_BR
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_INM_GEN.sv -section_id rb_INM_GEN
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_RAM.sv -section_id tb_RAM
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_CORE.sv -section_id tb_CORE
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_ALU.sv -section_id tb_ALU
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_BR.sv -section_id tb_BR
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_INM_GEN.sv -section_id rb_INM_GEN
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_RAM.sv -section_id tb_RAM
 set_global_assignment -name EDA_TEST_BENCH_NAME tb_ROM -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_ROM
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_ROM -section_id tb_ROM
-set_global_assignment -name EDA_TEST_BENCH_FILE Verificación/tb_ROM.sv -section_id tb_ROM
+set_global_assignment -name EDA_TEST_BENCH_FILE Verificaciï¿½n/tb_ROM.sv -section_id tb_ROM
+set_global_assignment -name SYSTEMVERILOG_FILE TinuC_tbBasico.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/ALU_CONTROL.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/ROM.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/CORE.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/ALU.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/RAM.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/BR.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/INM_GEN.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Diseño/CONTROL.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/ALU_CONTROL.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/ROM.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/CORE.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/ALU.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/RAM.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/BR.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/INM_GEN.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Diseï¿½o/CONTROL.sv
