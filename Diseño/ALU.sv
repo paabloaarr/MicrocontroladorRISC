@@ -1,8 +1,8 @@
 module ALU (
-    input  logic [3:0]  OPCODE,
-    input  logic [31:0] Data1, Data2,
-    output logic        Zero,
-    output logic [31:0] Result
+    input  logic [3:0]  ALU_CONTROL_in,
+    input  logic [31:0] ALU_Data1, ALU_Data2,
+    output logic        ALU_zero,
+    output logic [31:0] ALU_result
 );
 
     typedef enum logic [3:0] {
@@ -28,7 +28,7 @@ module ALU (
     ALU_OPCODES opcode_enum;
 
     // 2. Hacemos el cast desde la entrada de 4 bits
-    assign opcode_enum = ALU_OPCODES'(OPCODE);
+    assign opcode_enum = ALU_OPCODES'(ALU_CONTROL_in);
 
     always_comb begin
         unique case (opcode_enum)
@@ -42,9 +42,9 @@ module ALU (
 
         // FORMATO SB
             // BEQ:     // Recicla SUB (Zero = 1 si Data1 == Data2). ALU_CONTROL decodifica funct3 = 000; Control activa Branch = 1 y Branch & Zero controla el mux del PC.
-            BNE:        Result = (Data1 == Data2) ? 32'd1 : 32'd0;                  // Opcode propio. ALU_CONTROL decodifica funct3 = 001; Zero = 1 si Data1 != Data2; Branch & Zero controla el mux del PC.
-            BLT:        Result = ($signed(Data1) < $signed(Data2)) ? 32'd0 : 32'd1; // Opcode propio. ALU_CONTROL decodifica funct3 = 100; Zero = 1 si Data1 < Data2 (con signo); Branch & Zero controla el mux del PC.
-            BLTU:       Result = (Data1 < Data2) ? 32'd0 : 32'd1;                   // Opcode propio. ALU_CONTROL decodifica funct3 = 110; Zero = 1 si Data1 < Data2 (sin signo); Branch & Zero controla el mux del PC.
+            BNE:        ALU_result = (ALU_Data1 == ALU_Data2) ? 32'd1 : 32'd0;                  // Opcode propio. ALU_CONTROL decodifica funct3 = 001; Zero = 1 si Data1 != Data2; Branch & Zero controla el mux del PC.
+            BLT:        ALU_result = ($signed(ALU_Data1) < $signed(ALU_Data2)) ? 32'd0 : 32'd1; // Opcode propio. ALU_CONTROL decodifica funct3 = 100; Zero = 1 si Data1 < Data2 (con signo); Branch & Zero controla el mux del PC.
+            BLTU:       ALU_result = (ALU_Data1 < ALU_Data2) ? 32'd0 : 32'd1;                   // Opcode propio. ALU_CONTROL decodifica funct3 = 110; Zero = 1 si Data1 < Data2 (sin signo); Branch & Zero controla el mux del PC.
             // BGE:     // Recicla SLT (Zero = 1 si Data1 >= Data2 con signo). ALU_CONTROL mapea funct3 = 101 a SLT; Control activa Branch = 1 y RegWrite = 0.
             // BGEU:    // Recicla SLTU (Zero = 1 si Data1 >= Data2 sin signo). ALU_CONTROL mapea funct3 = 111 a SLTU; Control activa Branch = 1 y RegWrite = 0.
 
@@ -65,22 +65,22 @@ module ALU (
             // JALR:    // Recicla ADD (rs1 + imm). ALU_CONTROL manda ADD y ALUSrc = 1 mete imm I (Imm Gen); el mux del PC se amplía con {Result[31:1], 1'b0} y MemtoReg guarda PC + 4 en rd (RegWrite = 1).
 
         // FORMATO R
-            ADD:        Result = Data1 + Data2;
-            SUB:        Result = Data1 - Data2;
-            SLL:        Result = Data1 << Data2[4:0];
-            SLT:        Result = ($signed(Data1) < $signed(Data2)) ? 32'd1 : 32'd0;
-            SLTU:       Result = (Data1 < Data2) ? 32'd1 : 32'd0;
-            XOR:        Result = Data1 ^ Data2;
-            SRL:        Result = Data1 >> Data2[4:0];
-            SRA:        Result = $signed(Data1) >>> Data2[4:0];
-            OR:         Result = Data1 | Data2;
-            AND:        Result = Data1 & Data2;
+            ADD:        ALU_result = ALU_Data1 + ALU_Data2;
+            SUB:        ALU_result = ALU_Data1 - ALU_Data2;
+            SLL:        ALU_result = ALU_Data1 << ALU_Data2[4:0];
+            SLT:        ALU_result = ($signed(ALU_Data1) < $signed(ALU_Data2)) ? 32'd1 : 32'd0;
+            SLTU:       ALU_result = (ALU_Data1 < ALU_Data2) ? 32'd1 : 32'd0;
+            XOR:        ALU_result = ALU_Data1 ^ ALU_Data2;
+            SRL:        ALU_result = ALU_Data1 >> ALU_Data2[4:0];
+            SRA:        ALU_result = $signed(ALU_Data1) >>> ALU_Data2[4:0];
+            OR:         ALU_result = ALU_Data1 | ALU_Data2;
+            AND:        ALU_result = ALU_Data1 & ALU_Data2;
 
-            default:    Result = 32'b0;
+            default:    ALU_result = 32'b0;
 
         endcase
     end
 
-    assign Zero = (Result == 32'b0) ? 1'b1 : 1'b0;
+    assign ALU_zero = (ALU_result == 32'b0) ? 1'b1 : 1'b0;
 
 endmodule
